@@ -1,0 +1,21 @@
+{
+  "name": "simple-radar",
+  "version": "1.0.0",
+  "description": "A simple radar visualization with CSV data integration",
+  "type": "module",
+  "main": "be/server.js",
+  "scripts": {
+    "be": "bun be/server.js",
+    "fe": "bun fe/serve.js",
+    "dev": "bun dev.js",
+    "start": "bun dev.js"
+  },
+  "keywords": [
+    "radar",
+    "visualization",
+    "bun",
+    "csv"
+  ],
+  "author": "",
+  "license": "MIT"
+}

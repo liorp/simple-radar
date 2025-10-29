@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Radar</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- HUD Display -->
+        <div class="hud" id="hud">
+            <div class="hud-label">SYSTEM STATUS</div>
+            <div class="hud-status" id="status">CHECKING...</div>
+        </div>
+
+        <!-- Radar Display -->
+        <div class="radar-container">
+            <canvas id="radar" width="600" height="600"></canvas>
+
+            <!-- Side Labels -->
+            <div class="label label-top">TOP</div>
+            <div class="label label-right">RIGHT</div>
+            <div class="label label-bottom">BOTTOM</div>
+            <div class="label label-left">LEFT</div>
+
+            <!-- Dot Info Tooltip (hidden - tooltips rendered on canvas) -->
+            <div class="dot-info" id="dotInfo" style="display: none;">
+                <div class="dot-info-row">
+                    <span class="dot-info-label">SIDE:</span>
+                    <span class="dot-info-value" id="infoSide">-</span>
+                </div>
+                <div class="dot-info-row">
+                    <span class="dot-info-label">DIST:</span>
+                    <span class="dot-info-value" id="infoDistance">-</span>
+                </div>
+                <div class="dot-info-row">
+                    <span class="dot-info-label">VEL:</span>
+                    <span class="dot-info-value" id="infoVelocity">-</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="scripts/main.js"></script>
+</body>
+</html>
