@@ -23,6 +23,15 @@ function render(): void {
   requestAnimationFrame(render);
 }
 
+// Handle window resize
+let resizeTimeout: number;
+window.addEventListener('resize', () => {
+  clearTimeout(resizeTimeout);
+  resizeTimeout = setTimeout(() => {
+    initCanvas(); // Reinitialize canvas with new dimensions
+  }, 250);
+});
+
 // Start application
 init();
 render();

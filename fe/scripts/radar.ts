@@ -19,6 +19,11 @@ export function initCanvas(): void {
   canvas = document.getElementById("radar") as HTMLCanvasElement;
   ctx = canvas.getContext("2d")!;
 
+  // Calculate size based on viewport - use the smaller dimension to keep it circular
+  const size = Math.min(window.innerWidth, window.innerHeight) * 0.95; // 95% of viewport
+  canvas.width = size;
+  canvas.height = size;
+
   width = canvas.width;
   height = canvas.height;
   centerX = width / 2;

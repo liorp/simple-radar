@@ -78,7 +78,7 @@ async function pollRadarData(): Promise<void> {
           range: target.range,
           doppler: target.doppler,
           class: target.class,
-          timestamp: Date.now(),
+          timestamp: target.timestamp, // Preserve server timestamp (in seconds)
         };
 
         // Add to current dots
