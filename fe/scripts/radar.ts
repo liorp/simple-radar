@@ -37,13 +37,26 @@ export function initCanvas(): void {
 
 // Draw the static radar base once to offscreen canvas
 function drawStaticBase(): void {
-  // Draw concentric circles (distance rings)
+  // Draw concentric circles (distance rings) with distance labels
   baseCtx.strokeStyle = "rgba(0, 255, 255, 0.15)";
   baseCtx.lineWidth = 1;
-  for (let i = 1; i <= 4; i++) {
+  baseCtx.font = "10px monospace";
+  baseCtx.fillStyle = "rgba(0, 255, 255, 0.5)";
+  baseCtx.textAlign = "center";
+  baseCtx.textBaseline = "middle";
+
+  for (let i = 1; i <= 8; i++) {
+    const radius = (maxRadius / 8) * i;
+    // Draw circle
     baseCtx.beginPath();
-    baseCtx.arc(centerX, centerY, (maxRadius / 4) * i, 0, Math.PI * 2);
+    baseCtx.arc(centerX, centerY, radius, 0, Math.PI * 2);
     baseCtx.stroke();
+
+    // Calculate distance in meters (10m increments up to 80m)
+    const distance = 10 * i;
+
+    // Draw distance label at the top of each circle
+    baseCtx.fillText(`${distance}m`, centerX, centerY - radius - 8);
   }
 
   // Draw crosshairs (quadrant dividers)
@@ -95,8 +108,8 @@ export function cartesianToCanvas(
   const angle: number = Math.atan2(y, x);
 
   // Scale factor: range is in meters, we need to scale to fit radar
-  // Assume max range of ~20 meters to fit nicely in the radar circle
-  const scale: number = maxRadius / 20;
+  // Max range is 80 meters to fit in the radar circle
+  const scale: number = maxRadius / 80;
 
   // Convert from polar (angle, range) to canvas Cartesian coordinates
   // Canvas: (0,0) is top-left, positive x is right, positive y is down
@@ -116,10 +129,13 @@ function drawDotTooltip(dot: RadarDot, opacity: number): void {
   const padding: number = 6;
   const lineHeight: number = 12;
 
-  // Prepare text - show track_id, range, velocity
+  // Prepare text - show track_id, class, x, y, range, velocity
   const texts: string[] = [
     `ID:${dot.track_id || "?"}`,
-    `R:${dot.range ? dot.range.toFixed(1) : "?"}`,
+    `Class:${dot.class || "?"}`,
+    `X:${dot.x !== undefined ? dot.x.toFixed(2) : "?"}`,
+    `Y:${dot.y !== undefined ? dot.y.toFixed(2) : "?"}`,
+    `Range:${dot.range ? dot.range.toFixed(2) : "?"}`,
     `V:${dot.velocity ? dot.velocity.toFixed(1) : "?"}`,
   ];
 
