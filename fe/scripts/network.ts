@@ -64,8 +64,8 @@ async function pollRadarData(): Promise<void> {
     // Process each target from the API
     if (data.targets && Array.isArray(data.targets)) {
       data.targets.forEach(target => {
-        // Convert CSV cartesian coordinates to canvas coordinates
-        const canvasPos = cartesianToCanvas(target.x, target.y);
+        // Convert polar coordinates (x,y give angle via atan2, range gives radial distance) to canvas coordinates
+        const canvasPos = cartesianToCanvas(target.x, target.y, target.range);
 
         // Create dot with all necessary data
         const dot = {

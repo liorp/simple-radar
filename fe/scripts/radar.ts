@@ -4,7 +4,11 @@ import type { RadarDot, CanvasCoordinates } from "../../types.ts";
 // Canvas and context (to be initialized)
 let canvas: HTMLCanvasElement;
 let ctx: CanvasRenderingContext2D;
-let width: number, height: number, centerX: number, centerY: number, maxRadius: number;
+let width: number,
+  height: number,
+  centerX: number,
+  centerY: number,
+  maxRadius: number;
 
 // Offscreen canvas for static radar base (optimization)
 let baseCanvas: HTMLCanvasElement;
@@ -81,17 +85,25 @@ export function drawRadarBase(): void {
   ctx.drawImage(baseCanvas, 0, 0);
 }
 
-// Convert cartesian coordinates (from CSV) to canvas coordinates
-export function cartesianToCanvas(x: number, y: number): CanvasCoordinates {
-  // Scale factor: CSV coordinates are in meters, we need to scale to fit radar
+// Convert polar coordinates (from CSV) to canvas coordinates
+export function cartesianToCanvas(
+  x: number,
+  y: number,
+  range: number
+): CanvasCoordinates {
+  // Calculate polar angle from x,y components using atan2
+  const angle: number = Math.atan2(y, x);
+
+  // Scale factor: range is in meters, we need to scale to fit radar
   // Assume max range of ~20 meters to fit nicely in the radar circle
   const scale: number = maxRadius / 20;
 
-  // Convert: CSV x,y to canvas coordinates
+  // Convert from polar (angle, range) to canvas Cartesian coordinates
   // Canvas: (0,0) is top-left, positive x is right, positive y is down
-  // CSV: (0,0) is radar center, positive x is right, positive y is forward/up
-  const canvasX: number = centerX + x * scale;
-  const canvasY: number = centerY - y * scale; // Invert y because canvas y is down
+  // Radar: angle 0 is to the right (east), angle increases counter-clockwise
+  const scaledRange: number = range * scale;
+  const canvasX: number = centerX + scaledRange * Math.cos(angle);
+  const canvasY: number = centerY - scaledRange * Math.sin(angle); // Invert y because canvas y is down
 
   return { x: canvasX, y: canvasY };
 }
@@ -115,7 +127,9 @@ function drawDotTooltip(dot: RadarDot, opacity: number): void {
   ctx.font = "9px monospace";
 
   // Calculate tooltip dimensions
-  const maxWidth: number = Math.max(...texts.map((t) => ctx.measureText(t).width));
+  const maxWidth: number = Math.max(
+    ...texts.map((t) => ctx.measureText(t).width)
+  );
   const tooltipWidth: number = maxWidth + padding * 2;
   const tooltipHeight: number = texts.length * lineHeight + padding * 2;
 
