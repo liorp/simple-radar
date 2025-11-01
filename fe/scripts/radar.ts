@@ -1,5 +1,5 @@
+import type { CanvasCoordinates, RadarDot } from "../../types.ts";
 import { MAX_DOTS } from "./config.ts";
-import type { RadarDot, CanvasCoordinates } from "../../types.ts";
 
 // Canvas and context (to be initialized)
 let canvas: HTMLCanvasElement;
@@ -17,7 +17,9 @@ let baseCtx: CanvasRenderingContext2D;
 // Initialize canvas dimensions and context
 export function initCanvas(): void {
   canvas = document.getElementById("radar") as HTMLCanvasElement;
-  ctx = canvas.getContext("2d")!;
+  const context = canvas.getContext("2d");
+  if (!context) throw new Error("Failed to get 2D context");
+  ctx = context;
 
   // Calculate size based on viewport - use the smaller dimension to keep it circular
   const size = Math.min(window.innerWidth, window.innerHeight) * 0.95; // 95% of viewport
@@ -34,7 +36,9 @@ export function initCanvas(): void {
   baseCanvas = document.createElement("canvas");
   baseCanvas.width = width;
   baseCanvas.height = height;
-  baseCtx = baseCanvas.getContext("2d")!;
+  const baseContext = baseCanvas.getContext("2d");
+  if (!baseContext) throw new Error("Failed to get 2D context for base canvas");
+  baseCtx = baseContext;
 
   // Draw the static base once to the offscreen canvas
   drawStaticBase();
@@ -45,7 +49,7 @@ function drawStaticBase(): void {
   // Draw concentric circles (distance rings) with distance labels
   baseCtx.strokeStyle = "rgba(0, 255, 255, 0.15)";
   baseCtx.lineWidth = 1;
-  baseCtx.font = "10px monospace";
+  baseCtx.font = "20px monospace";
   baseCtx.fillStyle = "rgba(0, 255, 255, 0.5)";
   baseCtx.textAlign = "center";
   baseCtx.textBaseline = "middle";
@@ -131,21 +135,21 @@ function drawDotTooltip(dot: RadarDot, opacity: number): void {
   const tooltipOffset: number = 15;
   const tooltipX: number = dot.canvasX + tooltipOffset;
   const tooltipY: number = dot.canvasY - tooltipOffset;
-  const padding: number = 6;
-  const lineHeight: number = 12;
+  const padding: number = 10;
+  const lineHeight: number = 16;
 
   // Prepare text - show track_id, class, x, y, range, velocity
   const texts: string[] = [
-    `ID:${dot.track_id || "?"}`,
-    `Class:${dot.class || "?"}`,
-    `X:${dot.x !== undefined ? dot.x.toFixed(2) : "?"}`,
-    `Y:${dot.y !== undefined ? dot.y.toFixed(2) : "?"}`,
-    `Range:${dot.range ? dot.range.toFixed(2) : "?"}`,
-    `V:${dot.velocity ? dot.velocity.toFixed(1) : "?"}`,
+    `ID: ${dot.track_id || "?"}`,
+    `Class: ${dot.class || "?"}`,
+    `X: ${dot.x !== undefined ? dot.x.toFixed(2) : "?"}`,
+    `Y: ${dot.y !== undefined ? dot.y.toFixed(2) : "?"}`,
+    `Range: ${dot.range ? `${dot.range.toFixed(2)}m` : "?"}`,
+    `V: ${dot.velocity ? `${dot.velocity.toFixed(1)}m/s` : "?"}`,
   ];
 
   // Set font for measurement
-  ctx.font = "9px monospace";
+  ctx.font = "14px monospace";
 
   // Calculate tooltip dimensions
   const maxWidth: number = Math.max(
@@ -165,7 +169,7 @@ function drawDotTooltip(dot: RadarDot, opacity: number): void {
 
   // Draw text lines
   ctx.fillStyle = `rgba(255, 68, 102, ${opacity})`;
-  ctx.font = "9px monospace";
+  ctx.font = "14px monospace";
   texts.forEach((text, i) => {
     ctx.fillText(
       text,

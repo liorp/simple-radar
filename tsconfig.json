@@ -1,56 +1,49 @@
 {
-  "compilerOptions": {
-    // Language and Environment
-    "target": "ES2022",
-    "lib": ["ES2022", "DOM"],
-    "module": "ESNext",
-    "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
-    "noEmit": true,
+	"compilerOptions": {
+		// Language and Environment
+		"target": "ES2022",
+		"lib": ["ES2022", "DOM"],
+		"module": "ESNext",
+		"moduleResolution": "bundler",
+		"allowImportingTsExtensions": true,
+		"noEmit": true,
 
-    // Type Checking
-    "strict": true,
-    "noUncheckedIndexedAccess": true,
-    "noImplicitOverride": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true,
-    "allowUnreachableCode": false,
+		// Type Checking
+		"strict": true,
+		"noUncheckedIndexedAccess": true,
+		"noImplicitOverride": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"noFallthroughCasesInSwitch": true,
+		"allowUnreachableCode": false,
 
-    // Emit
-    "declaration": true,
-    "declarationMap": true,
-    "sourceMap": true,
-    "removeComments": false,
-    "importHelpers": false,
-    "importsNotUsedAsValues": "remove",
-    "downlevelIteration": true,
-    "preserveConstEnums": true,
+		// Emit
+		"declaration": true,
+		"declarationMap": true,
+		"sourceMap": true,
+		"removeComments": false,
+		"importHelpers": false,
+		"importsNotUsedAsValues": "remove",
+		"downlevelIteration": true,
+		"preserveConstEnums": true,
 
-    // Interop Constraints
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "forceConsistentCasingInFileNames": true,
-    "isolatedModules": true,
-    "verbatimModuleSyntax": false,
+		// Interop Constraints
+		"esModuleInterop": true,
+		"allowSyntheticDefaultImports": true,
+		"forceConsistentCasingInFileNames": true,
+		"isolatedModules": true,
+		"verbatimModuleSyntax": false,
 
-    // Type Roots
-    "types": ["bun-types"],
-    "skipLibCheck": true,
+		// Type Roots
+		"types": ["bun-types"],
+		"skipLibCheck": true,
 
-    // Paths
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["./*"]
-    }
-  },
-  "include": [
-    "**/*.ts",
-    "**/*.tsx"
-  ],
-  "exclude": [
-    "node_modules",
-    "dist",
-    "build"
-  ]
+		// Paths
+		"baseUrl": ".",
+		"paths": {
+			"@/*": ["./*"]
+		}
+	},
+	"include": ["**/*.ts", "**/*.tsx"],
+	"exclude": ["node_modules", "dist", "build"]
 }
